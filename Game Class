@@ -1,0 +1,83 @@
+# MIFTAHUL KHOIRIYAH
+# 123140064
+# PRAKTIKUM PBO RA TUGAS 2
+
+import random
+
+# Class merepresentasikan robot, karakteristik robot, dan perilaku robot
+class Robot:
+    def __init__(self, name, attack, hp, accuracy, defense):
+        # Inisialisasi atribut terdiri dari:
+        self.name = name
+        self.attack = attack
+        self.hp = hp  # Power/nyawa robot
+        self.accuracy = accuracy  # Akurasi serangan
+        self.defense = defense  # Pertahanan robot
+    
+    # Fungsi penyerangan lawan
+    def attack_enemy(self, enemy):
+        #menghasilkan nilai acak antara 0 dan 1
+        if random.random() <= self.accuracy: 
+            #jika serangan berhasil, hitung damage (serangan - pertahanan lawan)
+            damage = max(0, self.attack - enemy.defense)
+            enemy.hp -= damage #kurangin health points lawan dengan damage yg di hasilkan
+            print(f"{self.name} menyerang {enemy.name} dengan {damage} damage!")
+        else:
+            #jika serangan gagal
+            print(f"{self.name} gagal menyerang {enemy.name}!")
+    
+    # Fungsi regen/memulihkan power
+    def regen_health(self):
+        regen_amount = random.randint(5, 15)
+        self.hp += regen_amount
+        print(f"{self.name} memulihkan {regen_amount} HP!")
+    
+    def is_alive(self):
+        return self.hp > 0
+#class game mengatur logika permainan
+class Game:
+    def __init__(self, robot1, robot2):
+        #inisialisasi robot yg akan bertanding
+        self.robot1 = robot1
+        self.robot2 = robot2
+#fungsi untuk memulai permainan
+    def start(self):
+        round_number = 1 #ronde 1 program mendefinisikan jika kedua robot siap untuk memulai game
+        while self.robot1.is_alive() and self.robot2.is_alive():
+            print(f"\n======= Ronde {round_number} ======")
+            #user yang berperan sebagai robot1/ icibos memilih ingin melakukan perlawanan atau regen atau bertahan
+            action = input("Pilih aksi: (1) Serang || (2) Regen HP || (3) Bertahan || (4) Menyerah: ")
+            # jika user sudah memilih 1, maka icibos akan menyerang ocobot
+            if action == "1":
+                self.robot1.attack_enemy(self.robot2)
+                #user memilih 2 maka icibos akan memulihkan power
+            elif action == "2":
+                self.robot1.regen_health()
+                #user memilih 3, maka icibos akan bertahan
+            elif action == "3":
+                self.robot1.defense += 5
+                print(f"{self.robot1.name} meningkatkan pertahanan sebesar 5!")
+                #user memilih regen 4 makan icibos menyerah dari ocobot
+            elif action == "4":
+                print(f"{self.robot1.name} menyerah! {self.robot2.name} menang!")
+                return
+            #jika user memilih di luar pilihan maka program akan mengeluarkan pilihan tidak valid ronde dilewatkan
+            else:
+                print("Pilihan tidak valid, giliran dilewatkan!")
+            
+            if self.robot2.is_alive():
+                self.robot2.attack_enemy(self.robot1)
+            
+            print(f"{self.robot1.name} HP: {self.robot1.hp} | {self.robot2.name} HP: {self.robot2.hp}")
+            round_number += 1
+        #fungsi untuk memeriksa robot mana yg menang
+        winner = self.robot1 if self.robot1.is_alive() else self.robot2
+        print(f"\nPermainan Berakhir! {winner.name} menang!")
+
+# Inisialisasi robot, attack power, power, accurancy serangan, pertahanan
+robot1 = Robot(name="Icibos", attack=120, hp=100, accuracy=80, defense=50) #icibot memiliki serangan yang tinggi namun pertahanan yang rendah
+robot2 = Robot(name="Ocobot", attack=100, hp=100, accuracy=90, defense=80) #ocobot memiliki attack yang rendah namun accuracy tinggi
+
+# Mulai permainan
+game = Game(robot1, robot2)
+game.start()
