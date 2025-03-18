@@ -1,0 +1,54 @@
+import random
+
+# Kelas untuk objek Ayah
+class Father:
+    def __init__(self, blood_types):
+        self.blood_types = blood_types  # Menyimpan alel golongan darah ayah
+
+# Kelas untuk objek Ibu
+class Mother:
+    def __init__(self, blood_types):
+        self.blood_types = blood_types  # Menyimpan alel golongan darah ibu
+
+# Kelas untuk Anak
+class Child:
+    def __init__(self, father, mother):
+        # Memilih satu alel secara acak dari ayah dan ibu
+        allele_from_father = random.choice(father.blood_types)
+        allele_from_mother = random.choice(mother.blood_types)
+        self.blood_types = (allele_from_father, allele_from_mother)
+        self.blood_group = self.determine_blood_group()  # Tentukan golongan darah
+
+    def determine_blood_group(self):
+        # Kemungkinan golongan darah berdasarkan kombinasi alel
+        blood_combinations = {
+            ('A', 'A'): 'A',
+            ('A', 'O'): 'A',
+            ('O', 'A'): 'A',
+            ('O', 'A'): 'O',
+            ('A', 'B'): 'AB',
+            ('B', 'A'): 'AB',
+            ('AB', 'O'): 'O',
+            ('B', 'B'): 'B',
+            ('B', 'O'): 'B',
+            ('O', 'B'): 'O',
+            ('O', 'O'): 'O'
+        }
+        return blood_combinations.get(self.blood_types, "Unknown")
+
+    def __repr__(self):
+        return f"Golongan darah anak: {self.blood_group} (Alel: {self.blood_types})"
+
+# Input golongan darah orang tua
+father_blood = tuple(input("Masukkan dua alel golongan darah ayah (contoh: A,B, AB, O): ").upper())
+mother_blood = tuple(input("Masukkan dua alel golongan darah ibu (contoh: A,B, AB, O): ").upper())
+
+# Membuat objek orang tua
+ayah = Father(father_blood)
+ibu = Mother(mother_blood)
+
+# Membuat objek anak berdasarkan pewarisan alel
+anak = Child(ayah, ibu)
+
+# Menampilkan hasil pewarisan golongan darah
+print(anak)
