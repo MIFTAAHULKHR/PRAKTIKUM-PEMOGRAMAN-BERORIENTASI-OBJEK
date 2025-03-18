@@ -1,0 +1,73 @@
+#gunakkan import math agar dapat mengakses fungsi dan konstanta
+import math
+#gunakan class untuk membuat objek, objek yang kita pakai saat ini adalah objek kalkulator
+class Kalkulator:
+    #inisalisasi atribut di dalam class 
+    def __init__(self, nilai):
+        self.nilai = nilai
+    #fungsi mengimplementasikan operasi penjumlahan dalam dhunder method
+    def __add__(self, other):
+        return Kalkulator(self.nilai + other.nilai)
+    # sub digunakan untuk mengimplementasikan pengurangan dalam dhunder method
+    def __sub__(self, other):
+        return Kalkulator(self.nilai - other.nilai)
+    # mul digunakan untuk mengimplementasikan perkalian
+    def __mul__(self, other):
+        return Kalkulator(self.nilai * other.nilai)
+    # truediv digunakan untuk mengimplementasikan pembagian 
+    def __truediv__(self, other):
+       return Kalkulator(self.nilai / other.nilai)
+    # pow digunakan untuk mengimlementasikan fungsi pangkat
+    def __pow__(self, other):
+        return Kalkulator(self.nilai ** other.nilai)
+    # log untuk mengimplementasikan fungsi log itu sendiri
+    def log(self):
+        return Kalkulator(math.log(self.nilai))
+#menampilkan nilai yang tersimpan
+    def __repr__(self):
+        return f"Hasil: {self.nilai}"
+#program meminta input pengguna, terdapat 2 input yaitu angka 1 dan angka 2
+nilai1 = float(input("masukkan angka pertama : "))
+nilai2 = float(input("masukkan angka ke dua : "))
+#a digunakan untuk menyimpan nilai1 ke dalam atribut self.nilai pada objek a
+a = Kalkulator(nilai1)
+#b digunakan untuk menyimpan nilai2 ke dalam atribut other.nilai pada objek b
+b = Kalkulator(nilai2)
+#program menampilkan menu operasi 
+print ("\n Beerikut menu operasi : ")
+print("1. + ")
+print("2. - " )
+print("3. * ")
+print("4. / ")
+print("5. ^ ")
+print ("6. Log ")
+pilihan = input("Masukkan pilihan 1-6: ")
+
+#program akan memilih operasi matematika berdasarkan input user
+#jika pilihan 1 maka penjumlahan di jalankan
+if pilihan == "1":
+    print( a + b )
+    #pilihan 2, pengurangan di jalankan
+elif pilihan == "2":
+    print( a - b )
+    #pilihan 3, perkalian di jalankan
+elif pilihan == "3":
+    print( a * b)
+    #pilihan 4, pembagian di jalankan
+elif pilihan == "4":
+    print(a / b)
+    #pilihan 5 perpangkatan di jalankan
+elif pilihan == "5":
+    print (a**b)
+    #pilihan 6 log di jalankan
+elif pilihan == "6":
+    print (a.log())
+    #jika user memilih di luar menu yg di tawarkan maka akan muncul pernytaaan berikut ini :
+else:
+    print ("Pilihan yang anda pilih tidak valid")
+    #program kalkulator selesai :)
+
+
+
+
+
